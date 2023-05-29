@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotizaciones de pesos a dólares</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="js/cotizar.js"></script>
+</head>
+<body>
+    <header>   
+        <div class="columna-header">
+            <h1>Cotizaciones de pesos a dólares</h1>
+        </div>
+
+        <div class="columna-header columna-centrada divisas">
+            <h2 class="title-centrado">Divisa 1</h2>
+            <h2 class="title-centrado">Divisa 2</h2>
+            <h2 class="title-centrado">Divisa 3</h2>
+            <!-- Agregar más elementos h2 para más divisas -->
+        </div>
+
+        <div class="columna-header">
+            <div class="menu-desplegable">
+                <div class="menu-icono">
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                </div>
+                <!-- Agregar elementos del menú desplegable -->
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="divisas-principal">
+            <div class="recuadro">
+                <h3>Nombre de divisa 1</h3>
+                <p>Detalles de la divisa 1</p>
+            </div>
+            
+            <div class="recuadro">
+                <h3>Nombre de divisa 2</h3>
+                <p>Detalles de la divisa 2</p>
+            </div>
+            
+            <div class="recuadro">
+                <h3>Nombre de divisa 3</h3>
+                <p>Detalles de la divisa 3</p>
+            </div>
+            <!-- Agrega más recuadros para las divisas adicionales -->
+        </div>
+
+        <div class="conversor">
+            <h2>Conversor de divisas</h2>
+            <label for="monto">Monto en pesos:</label>
+            <input type="text" id="monto">
+            <label for="equivalente">Equivalente en otra divisa:</label>
+            <input type="text" id="equivalente" readonly>
+            <button onclick="comenzar()">Cotizar</button>
+        </div>
+    </div>
+</body>
+</html>

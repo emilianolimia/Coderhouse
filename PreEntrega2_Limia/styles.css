@@ -1,0 +1,106 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos del header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.columna-header {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+h1 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.columna-centrada {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.title-centrado {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.divisas h2:not(:last-child)::after {   /* '::after' se aplica a todos los elementos h2 */
+    content: " | ";                     /* excepto al último elemento (:not(:last-child)) */
+    padding: 15px;
+}
+
+.menu-desplegable {
+    position: relative;
+    text-align: right;
+    padding: 0 10px;
+}
+
+.menu-icono {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.barra {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    margin-bottom: 4px;
+}
+
+/* Estilos del cuerpo principal */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.divisas-principal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.recuadro {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.conversor {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.conversor input {
+    width: 100%;
+    padding: 5px;
+}
+
+.conversor button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
