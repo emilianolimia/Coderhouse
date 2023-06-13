@@ -1,0 +1,177 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos del header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f2f2f2;
+    margin-bottom: 20px;
+}
+
+.columna-header {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+h1 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.columna-centrada {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    padding: 0 10px;
+}
+
+.title-centrado {
+    font-size: .9rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.divisas h2:not(:last-child)::after {   /* '::after' se aplica a todos los elementos h2 */
+    content: " | ";                     /* excepto al último elemento (:not(:last-child)) */
+    padding: 15px;
+}
+
+#criptomonedas {
+    opacity: 0.5;
+}
+
+#tooltip {
+    position: absolute;
+    top: 45px;
+    left: 62%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    display: none;
+    font-size: 12px;
+}
+
+.menu-desplegable {
+    position: relative;
+    text-align: right;
+    padding: 0 10px;
+}
+
+.menu-icono {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.menu-contenido {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #f9f9f9;
+    padding: 10px;
+    display: none;
+}
+  
+.menu-contenido a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+}
+  
+.menu-desplegable:hover .menu-contenido {
+    display: block;
+}
+
+.barra {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    margin-bottom: 4px;
+}
+
+/* Estilos del cuerpo principal */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.divisas-principal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.recuadro {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.recuadro-hover {
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    cursor: pointer; /* Cambia el cursor al pasar el cursor */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Agrega una sombra al pasar el cursor */
+}
+  
+.recuadro-seleccionado {
+    background-color: #e0e0e0; /* Cambia el color de fondo cuando está seleccionado */
+    border: 2px solid #333; /* Agrega un borde al recuadro seleccionado */
+}
+
+.valor {
+    font-size: 32px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.detalle {
+    font-size: 11px;
+    white-space: normal; /* Permite que el contenido se ajuste automáticamente en varios renglones */
+    word-wrap: break-word; /* Fuerza el ajuste de palabras largas */
+    max-width: 225px;
+}
+
+.conversor {
+    margin-top: 20px;
+    padding: 20px;
+    width: 50%;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+  
+.input-wrapper input {
+    width: 100%;
+    padding: 10px 60px 10px 10px;
+    font-size: 52px;
+    text-align: right;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+.input-wrapper span {
+    position: absolute;
+    top: 60%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 18px;
+}
