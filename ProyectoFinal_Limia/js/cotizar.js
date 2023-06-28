@@ -51,6 +51,8 @@ fetch('https://criptoya.com/api/dolar')
         }
 
         valor_elegido = divisas[0].valor;
+        
+        // Definimos al contenedor padre y le quitamos la clase loading
         contenedor_padre = document.getElementById("divisas-principal");
         contenedor_padre.classList.remove("loading");
 
@@ -115,7 +117,6 @@ fetch('https://criptoya.com/api/dolar')
         console.log(data);
     })
     .catch(error => {
-        // Manejo de errores
         console.error(error);
     });
 
@@ -181,7 +182,7 @@ function cotizar() {
 
     monto = parseFloat(monto_input.value);
 
-    // Validamos que el input sea un número válido
+    // Validamos que el input sea un número válido con un operador ternario
     dolar_input.value = (isNaN(monto)) ? 0 : (monto / valor_elegido).toFixed(2);
 }
 
