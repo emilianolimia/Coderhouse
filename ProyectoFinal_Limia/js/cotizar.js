@@ -201,8 +201,8 @@ monto_input.addEventListener("keydown", function(e) {
             duration: 3000,
             gravity: "bottom",
             offset: {
-                x: 50, // horizontal axis - can be a number or a string indicating unity. eg: '2em'
-                y: 300 // vertical axis - can be a number or a string indicating unity. eg: '2em'
+                x: 50, // eje horizontal donde queremos que aparezca el toast
+                y: 300 // eje vertical donde queremos que aparezca el toast
             }
         }).showToast();
     }
