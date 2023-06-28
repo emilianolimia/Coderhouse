@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotizaciones de pesos a dólares</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <header>   
+        <div class="columna-header">
+            <h1>PESOS a DÓLARES</h1>
+        </div>
+
+        <div class="columna-header columna-centrada divisas">
+            <h2 class="title-centrado">DÓLARES</h2>
+            <h2 class="title-centrado" id="criptomonedas">CRIPTOMONEDAS</h2>
+        </div>
+        <div id="tooltip">Próximamente</div>
+
+        <div class="columna-header">
+            <div class="menu-desplegable">
+                <div class="menu-icono">
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                    <div class="barra"></div>
+                </div>
+
+                <div class="menu-contenido">
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="divisas-principal loading" id="divisas-principal">
+            <!-- Agregar recuadros para cada divisa -->
+        </div>
+
+        <div class="conversor">
+            <div class="input-wrapper">
+                <input type="text" id="monto" placeholder="0.00">
+                <span>ARS</span>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" id="equivalente" placeholder="0.00" readonly>
+                <span>USD</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/cotizar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+</html>
