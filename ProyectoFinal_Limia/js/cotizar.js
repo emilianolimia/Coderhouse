@@ -114,7 +114,7 @@ fetch('https://criptoya.com/api/dolar')
         fecha_ISO = fecha.toISOString();
         localStorage.setItem("ultima_fecha", fecha_ISO);
 
-        console.log(data);
+        // console.log(data);
     })
     .catch(error => {
         console.error(error);
