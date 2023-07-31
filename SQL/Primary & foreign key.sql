@@ -1,0 +1,19 @@
+use spotify;
+
+# Primary key
+ALTER TABLE artists
+CHANGE COLUMN id id INT NOT NULL AUTO_INCREMENT,
+ADD PRIMARY KEY (id);
+
+ALTER TABLE albums
+CHANGE COLUMN id id INT NOT NULL AUTO_INCREMENT,
+ADD PRIMARY KEY (id);
+
+# Relationship
+ALTER TABLE albums
+ADD COLUMN artist_id INT; 
+
+ALTER TABLE albums
+ADD FOREIGN KEY (artist_id) REFERENCES artists (id)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION;
