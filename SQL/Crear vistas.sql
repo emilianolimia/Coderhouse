@@ -1,4 +1,4 @@
-Use gammers_model;
+Use gamers_model;
 
 SELECT * FROM game;
 
