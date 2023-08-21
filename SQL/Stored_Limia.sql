@@ -1,4 +1,4 @@
-USE atacama2;
+USE atacama;
 
 -- SP al que le pasamos como primer parámetro el campo de ordenamiento a la tabla customer_books_tour
 -- Y mediante un segundo parámetro le pasamos si el orden es descendente o ascendente.
@@ -35,6 +35,3 @@ BEGIN
 	DEALLOCATE PREPARE runSQL;
 END
 $$
-
-CALL sp_insert_customer('Emi Limia', 'ID', 'K2345678', 'Argentina', 'Male', 36, @result);
-SELECT @result as result_insert_customer;
