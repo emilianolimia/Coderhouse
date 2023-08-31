@@ -1,25 +1,5 @@
 USE atacama;
 
--- Modificar el nombre de la columna 'name' a 'full_name'
-ALTER TABLE customers
-CHANGE COLUMN name full_name VARCHAR(50);
-
--- Agregar la columna 'gender'
-ALTER TABLE customers
-ADD COLUMN gender ENUM('Male', 'Female', 'Other');
-
--- Agregar la columna 'age'
-ALTER TABLE customers
-ADD COLUMN age INT;
-
--- Agregar la columna 'package_name'
-ALTER TABLE packages
-ADD COLUMN package_name VARCHAR(50) NOT NULL;
-
--- Modificar el nombre de la columna 'empresa' a 'company'
-ALTER TABLE transfers
-CHANGE COLUMN empresa company VARCHAR(50);
-
 -- Inserción de clientes
 INSERT INTO customers(full_name, document_type, document_number, nationality, gender, age)
 VALUES ('Juan Pérez', 'ID', 'A1234567', 'Chile', 'Male', '35'),
