@@ -49,21 +49,22 @@ class ProductManager {
   }
 }
 
-// Crear una instancia de la clase "ProductManager"
-const manager = new ProductManager();
+// // PROCESO DE TESTING
+// // Crear una instancia de la clase "ProductManager"
+// const manager = new ProductManager();
 
-// Llamar al método "getProducts", debe devolver un arreglo vacío []
-console.log(manager.getProducts());
+// // Llamar al método "getProducts", debe devolver un arreglo vacío []
+// console.log(manager.getProducts());
 
-// Llamar al método "addProduct" con los campos especificados
-manager.addProduct('producto prueba', 'Este es un producto prueba', 200, 'Sin imagen', 'abc123', 25);
+// // Llamar al método "addProduct" con los campos especificados
+// manager.addProduct('producto prueba', 'Este es un producto prueba', 200, 'Sin imagen', 'abc123', 25);
 
-// Llamar al método "getProducts" nuevamente, esta vez debe aparecer el producto recién agregado
-console.log(manager.getProducts());
+// // Llamar al método "getProducts" nuevamente, esta vez debe aparecer el producto recién agregado
+// console.log(manager.getProducts());
 
-// Llamar al método "addProduct" con los mismos campos de arriba, debe arrojar un error porque el código estará repetido.
-manager.addProduct('producto prueba', 'Este es un producto prueba', 200, 'Sin imagen', 'abc123', 25);
+// // Llamar al método "addProduct" con los mismos campos de arriba, debe arrojar un error porque el código estará repetido.
+// manager.addProduct('producto prueba', 'Este es un producto prueba', 200, 'Sin imagen', 'abc123', 25);
 
-// Evaluar que getProductById devuelva error si no encuentra el producto o el producto en caso de encontrarlo
-console.log(manager.getProductById(1));
-console.log(manager.getProductById(999));
+// // Evaluar que getProductById devuelva error si no encuentra el producto o el producto en caso de encontrarlo
+// console.log(manager.getProductById(1));
+// console.log(manager.getProductById(999));
