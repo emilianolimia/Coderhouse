@@ -21,8 +21,8 @@ class ProductManager {
   }
 
   saveProductsToFile() {
-    const data = JSON.stringify(this.products, null, 2);  // Es el segundo parámetro, llamado replacer, se utiliza para transformar el resultado. 
-    fs.writeFileSync(this.path, data, 'utf8');            // Es el tercer parámetro, llamado space, se utiliza para la sangría (indentación) en la cadena JSON. 
+    const data = JSON.stringify(this.products, null, 2);  // El segundo parámetro, llamado replacer, se utiliza para transformar el resultado. 
+    fs.writeFileSync(this.path, data, 'utf8');            // El tercer parámetro, llamado space, se utiliza para la sangría (indentación) en la cadena JSON. 
   }
 
   addProduct(product) {
@@ -41,7 +41,7 @@ class ProductManager {
     // Agregar el producto al arreglo con un id autoincrementable
     const newProduct = {
       id: this.nextId++,
-      ...product, // Copian todas las propiedades de product en newProduct
+      ...product, // Se copian todas las propiedades de product en newProduct
     };
 
     this.products.push(newProduct);
@@ -80,7 +80,7 @@ class ProductManager {
     const index = this.products.findIndex(p => p.id === id);
 
     if (index !== -1) {
-      const deletedProduct = this.products.splice(index, 1)[0]; // Se eliminan 1 elemento del array this.products a partir de la posición index
+      const deletedProduct = this.products.splice(index, 1)[0]; // Se elimina 1 elemento del array this.products a partir de la posición index
       this.saveProductsToFile();
       console.log('Producto eliminado:', deletedProduct);
     } else {
