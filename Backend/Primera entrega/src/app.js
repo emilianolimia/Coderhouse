@@ -154,6 +154,7 @@ app.get('/api/carts/:cid', async (req, res) => {
 
 app.post('/api/carts/:cid/product/:pid', async (req, res) => {
   try {
+    await productManager.init();
     await cartManager.init();
 
     const cartId = parseInt(req.params.cid, 10);
@@ -164,6 +165,12 @@ app.post('/api/carts/:cid/product/:pid', async (req, res) => {
     const cart = await cartManager.getCartById(cartId);
     if (!cart) {
       return res.status(404).json({ error: 'Carrito no encontrado' });
+    }
+
+    // Verificar si el producto existe en la base de datos de productos
+    const product = productManager.getProductById(productId);
+    if (!product) {
+      return res.status(404).json({ error: 'El producto no existe' });
     }
 
     // Agregar el producto al carrito

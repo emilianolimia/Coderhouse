@@ -38,7 +38,7 @@ class ProductManager {
     };
 
     // Validar que todos los campos sean obligatorios
-    if (!productWithDefaults.title || !productWithDefaults.description || !productWithDefaults.price || !productWithDefaults.thumbnails || !productWithDefaults.code || !productWithDefaults.stock) {
+    if (!productWithDefaults.title || !productWithDefaults.description || !productWithDefaults.price || !productWithDefaults.code || !productWithDefaults.stock) {
         console.error('Todos los campos son obligatorios.');
         return;
     }
@@ -70,7 +70,7 @@ class ProductManager {
   }
 
   getProductById(id) {
-    const product = this.products.find(p => p.id === id);
+    const product = this.products.find(p => p.id === parseInt(id, 10));
 
     if (product) {
       return product;
@@ -106,9 +106,3 @@ class ProductManager {
 }
 
 module.exports = ProductManager;
-
-// PROCESO DE TESTING
-// http://localhost:8080/products
-// http://localhost:8080/products?limit=5 
-// http://localhost:8080/products/2 
-// http://localhost:8080/products/34123123 
