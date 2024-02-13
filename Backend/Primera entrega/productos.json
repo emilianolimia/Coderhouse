@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1,
+    "status": true,
+    "title": "Producto 1",
+    "description": "Descripción del Producto 1",
+    "price": 20.99,
+    "thumbnails": "imagen1.jpg",
+    "code": "ABC123",
+    "stock": 50
+  },
+  {
+    "id": 2,
+    "status": true,
+    "title": "Producto 2",
+    "description": "Descripción del Producto 2",
+    "price": 15.49,
+    "thumbnails": "imagen2.jpg",
+    "code": "DEF456",
+    "stock": 30
+  },
+  {
+    "id": 3,
+    "status": true,
+    "title": "Producto 3",
+    "description": "Descripción del Producto 3",
+    "price": 25.99,
+    "thumbnails": "imagen3.jpg",
+    "code": "GHI789",
+    "stock": 25
+  },
+  {
+    "id": 4,
+    "status": true,
+    "title": "Producto 4",
+    "description": "Descripción del Producto 4",
+    "price": 12.99,
+    "thumbnails": "imagen4.jpg",
+    "code": "JKL012",
+    "stock": 40
+  },
+  {
+    "id": 5,
+    "status": true,
+    "title": "Producto 5",
+    "description": "Descripción del Producto 5",
+    "price": 30.99,
+    "thumbnails": "imagen5.jpg",
+    "code": "MNO345",
+    "stock": 20
+  },
+  {
+    "id": 6,
+    "status": true,
+    "title": "Producto 6",
+    "description": "Descripción del Producto 6",
+    "price": 18.49,
+    "thumbnails": "imagen6.jpg",
+    "code": "PQR678",
+    "stock": 35
+  },
+  {
+    "id": 7,
+    "status": true,
+    "title": "Producto 7",
+    "description": "Descripción del Producto 7",
+    "price": 22.99,
+    "thumbnails": "imagen7.jpg",
+    "code": "STU901",
+    "stock": 28
+  },
+  {
+    "id": 8,
+    "status": true,
+    "title": "Producto 8",
+    "description": "Descripción del Producto 8",
+    "price": 16.99,
+    "thumbnails": "imagen8.jpg",
+    "code": "VWX234",
+    "stock": 45
+  },
+  {
+    "id": 9,
+    "status": true,
+    "title": "Producto 9",
+    "description": "Descripción del Producto 9",
+    "price": 28.49,
+    "thumbnails": "imagen9.jpg",
+    "code": "YZA567",
+    "stock": 22
+  },
+  {
+    "id": 10,
+    "status": true,
+    "title": "Producto 10",
+    "description": "Descripción del Producto 10",
+    "price": 14.99,
+    "thumbnails": "imagen10.jpg",
+    "code": "BCD890",
+    "stock": 38
+  },
+  {
+    "id": 11,
+    "status": true,
+    "title": "Nuevo producto",
+    "description": "Descripción del nuevo producto",
+    "code": "ABC1234",
+    "price": 19.99,
+    "stock": 50,
+    "category": "Electrónica",
+    "thumbnails": [
+      "ruta1.jpg",
+      "ruta2.jpg"
+    ]
+  }
+]
