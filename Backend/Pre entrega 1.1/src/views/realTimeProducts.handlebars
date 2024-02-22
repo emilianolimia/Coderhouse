@@ -1,0 +1,6 @@
+<h1>Lista de Productos (Real Time)</h1>
+<ul>
+  {{#each products}}
+    <li>{{this.title}} - {{this.price}} <button onclick="deleteProduct({{this.id}})">Eliminar</button></li>
+  {{/each}}
+</ul>
