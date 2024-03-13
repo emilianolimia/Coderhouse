@@ -3,9 +3,9 @@ const exphbs = require('express-handlebars');
 const http = require('http');
 const socketio = require('socket.io');
 const path = require('path');
-
-const { default: productModel } = require('./models/product');
-const { default: cartModel } = require('./models/cart');
+const mongoose = require('mongoose');
+const productModel = require('./models/product');
+const cartModel = require('./models/cart');
 
 const app = express();
 const port = 8080;
@@ -21,8 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Inicialización de managers
-const cartManager = new CartManager('../carrito.json');
+// Conexión con MongoDB
+mongoose.connect('mongodb+srv://emilimiadev:qKcR4pvMYlS89gTD@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    .then(() => console.log("DB is connected"))
+    .catch(e => console.log(e))
 
 // Inicialización del servidor
 server.listen(port, () => {
@@ -104,19 +106,17 @@ app.get('/api/products/:pid', async (req, res) => {
 
 app.post('/api/products', async (req, res) => {
   try {
-    await productManager.init();
-
     const product = req.body;
 
     // Validar campos obligatorios
-    if (!product.title || !product.description || !product.code || !product.price || !stock || !category) {
+    if (!product.title || !product.description || !product.code || !product.price || !product.stock) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios excepto thumbnails' });
     }
 
     // Agregar el producto
     const newProduct = await productModel.create(product);
+    res.status(201).send(newProduct);
 
-    res.status(201).json({ product: newProduct });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: 'Error interno del servidor' });
@@ -216,11 +216,14 @@ app.post('/api/carts/:cid/product/:pid', async (req, res) => {
     // Verificar si el producto existe en la base de datos de productos
     const index = cart.products.findIndex(product => product.id == productId);
     if (index != -1) {
-      return res.status(404).json({ error: 'El producto no existe' });
+      // return res.status(404).json({ error: 'El producto no existe' });
+      cart.products[index].quantity += quantity;
+    } else {
+      cart.products.push({ id: productId, quantity: quantity});
     }
 
     // Agregar el producto al carrito
-    await cartModel.findByIdAndUpdate(cartId, productId, quantity);
+    await cartModel.findByIdAndUpdate(cartId, cart);
 
     res.json({ message: 'Producto agregado al carrito correctamente' });
   } catch (error) {
