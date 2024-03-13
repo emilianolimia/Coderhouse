@@ -22,7 +22,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // Conexión con MongoDB
-mongoose.connect('mongodb+srv://emilimiadev:qKcR4pvMYlS89gTD@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://emilimiadev:<password>@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log("DB is connected"))
     .catch(e => console.log(e))
 
