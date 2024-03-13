@@ -74,10 +74,8 @@ app.use(express.json());
 // Rutas para productos
 app.get('/api/products', async (req, res) => {
   try {
-    await productManager.init();
-
     const limit = req.query.limit ? parseInt(req.query.limit, 10) : undefined;
-    const products = await productManager.getProducts(limit);
+    const products = await productModel.find();
 
     res.json({ products });
   } catch (error) {
@@ -88,10 +86,8 @@ app.get('/api/products', async (req, res) => {
 
 app.get('/api/products/:pid', async (req, res) => {
   try {
-    await productManager.init();
-
-    const productId = parseInt(req.params.pid, 10);
-    const product = productModel.findById(productId);
+    const productId = req.params.pid;
+    const product = await productModel.findById(productId).lean();
 
     if (product) {
       res.json({ product });
@@ -125,19 +121,17 @@ app.post('/api/products', async (req, res) => {
 
 app.put('/api/products/:pid', async (req, res) => {
   try {
-    await productManager.init();
-
-    const productId = parseInt(req.params.pid, 10);
+    const productId = req.params.pid;
     const updatedFields = req.body;
 
     // Verificar si el producto existe
-    const existingProduct = await productManager.getProductById(productId);
+    const existingProduct = await productModel.findById(productId);
     if (!existingProduct) {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
 
     // Actualizar el producto
-    await productManager.updateProduct(productId, updatedFields);
+    await productModel.findByIdAndUpdate(productId, updatedFields);
 
     res.json({ message: 'Producto actualizado correctamente' });
   } catch (error) {
@@ -148,9 +142,7 @@ app.put('/api/products/:pid', async (req, res) => {
 
 app.delete('/api/products/:pid', async (req, res) => {
   try {
-    await productManager.init();
-
-    const productId = parseInt(req.params.pid, 10);
+    const productId = req.params.pid;
 
     // Verificar si el producto existe
     const existingProduct = await productModel.findById(productId);
@@ -159,7 +151,7 @@ app.delete('/api/products/:pid', async (req, res) => {
     }
 
     // Eliminar el producto
-    await productManager.deleteProduct(productId);
+    await productModel.findByIdAndDelete(productId);
 
     res.json({ message: 'Producto eliminado correctamente' });
   } catch (error) {
@@ -172,10 +164,8 @@ app.delete('/api/products/:pid', async (req, res) => {
 
 app.post('/api/carts', async (req, res) => {
   try {
-    await cartManager.init();
-
     // Crear un nuevo carrito
-    const newCart = await cartManager.addCart({});
+    const newCart = await cartModel.create({ products: []});
 
     res.status(201).json({ cart: newCart });
   } catch (error) {
@@ -186,7 +176,7 @@ app.post('/api/carts', async (req, res) => {
 
 app.get('/api/carts/:cid', async (req, res) => {
   try {
-    const cartId = parseInt(req.params.cid, 10);
+    const cartId = req.params.cid;
 
     // Obtener el carrito por ID
     const cart = await cartModel.findById(cartId);
@@ -203,8 +193,8 @@ app.get('/api/carts/:cid', async (req, res) => {
 
 app.post('/api/carts/:cid/product/:pid', async (req, res) => {
   try {
-    const cartId = parseInt(req.params.cid, 10);
-    const productId = parseInt(req.params.pid, 10);
+    const cartId = req.params.cid;
+    const productId = req.params.pid;
     const { quantity } = req.body;
 
     // Verificar si el carrito existe
@@ -214,12 +204,12 @@ app.post('/api/carts/:cid/product/:pid', async (req, res) => {
     }
 
     // Verificar si el producto existe en la base de datos de productos
-    const index = cart.products.findIndex(product => product.id == productId);
+   const index = cart.products.findIndex(product => product.id_prod == productId);
     if (index != -1) {
       // return res.status(404).json({ error: 'El producto no existe' });
-      cart.products[index].quantity += quantity;
+      cart.products[index].quantity = quantity;
     } else {
-      cart.products.push({ id: productId, quantity: quantity});
+      cart.products.push({ id_prod: productId, quantity: quantity});
     }
 
     // Agregar el producto al carrito
