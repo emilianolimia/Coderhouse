@@ -6,6 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const productModel = require('./models/product');
 const cartModel = require('./models/cart');
+const messageModel = require('./models/message')
 
 const app = express();
 const port = 8080;
@@ -22,7 +23,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // Conexión con MongoDB
-mongoose.connect('mongodb+srv://emilimiadev:<password>@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://emilimiadev:qKcR4pvMYlS89gTD@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log("DB is connected"))
     .catch(e => console.log(e))
 
@@ -34,6 +35,14 @@ server.listen(port, () => {
 // Manejo de conexión de sockets
 io.on('connection', (socket) => {
   console.log('Cliente conectado');
+
+  socket.on('message', async data => {
+    const newMessage = await messageModel.create(data);
+    res.status(201).send(newMessage);
+
+    const messages = await messageModel.find();
+    io.emit('messageLogs', messages)
+  })
 
   // Manejo de eventos de creación de producto
   socket.on('productCreated', () => {
