@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Conexión con MongoDB
-mongoose.connect('mongodb+srv://emilimiadev:qKcR4pvMYlS89gTD@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://emilimiadev:<password>@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log("DB is connected"))
     .catch(e => console.log(e))
 
@@ -104,8 +104,8 @@ app.get('/carts/:cid', async (req, res) => {
       if (!cart) {
         return res.status(404).json({ error: 'Carrito no encontrado' });
       }
-  
-      res.render('cart', { cart });
+      console.log(cart);
+      res.render('cart', { cart: JSON.parse(JSON.stringify(cart)) });
   } catch (error) {
       console.error('Error:', error.message);
       res.status(500).json({ error: 'Error interno del servidor' });
