@@ -32,7 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Conexión con MongoDB
-mongoose.connect('mongodb+srv://emilimiadev:qKcR4pvMYlS89gTD@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://emilimiadev:<password>@cluster0.mlbri5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => console.log("DB is connected"))
     .catch(e => console.log(e))
 
@@ -49,8 +49,10 @@ app.use('/api/sessions', sessionsRouter);
 
 // Middleware para redirigir al endpoint /login
 app.use((req, res, next) => {
-  if (!req.session.user && req.originalUrl !== '/login') {
-    return res.redirect('/login');
+  console.log('Middleware de redirección:', req.originalUrl);
+
+  if (!req.session.user && req.originalUrl !== '/api/sessions/login' && req.method !== 'POST') {
+    return res.redirect('/api/sessions/login');
   }
   next();
 });
@@ -146,6 +148,10 @@ app.get('/profile', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('login'); // Renderiza la vista de login
+});
+
+app.get('/register', (req, res) => {
+  res.render('register'); // Renderiza la vista de register
 });
 
 // Logout

@@ -8,6 +8,10 @@ router.get('/login', (req, res) => {
   res.render('login'); // Renderiza la vista de login
 });
 
+router.get('/register', (req, res) => {
+  res.render('register'); // Renderiza la vista de register
+});
+
 // Registrar usuario
 router.post('/register', async (req, res) => {
   try {
