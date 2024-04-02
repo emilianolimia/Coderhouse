@@ -1,9 +1,10 @@
+console.log('Accediendo a sessionRouter.js');
+
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const GitHubStrategy = require('passport-github').Strategy;
 const router = express.Router();
 
 // Configuración de Passport para autenticación local
@@ -48,71 +49,13 @@ passport.use(new LocalStrategy({
   }
 }));
 
-// Configuración de Passport para autenticación de GitHub
-passport.use(new GitHubStrategy({
-  clientID: '03f241eca066db0a891b',
-  clientSecret: 'e6fdfdc307faa9522cdc49d6a4b3d9d2c3d9496a',
-  callbackURL: 'http://localhost:8080/api/sessions/login/github/callback'
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    console.log('Entrando en estrategia de GitHub');
-    console.log('Profile:', profile);
-
-    let user = await User.findOne({ email: profile._json.email });
-    
-    if (!user) {
-      console.log('Creando nuevo usuario');
-      user = new User({
-        first_name: profile._json.name,
-        email: profile._json.email,
-        password: '', // Asignar password vacío
-      });
-      await user.save();
-    } else {
-      // Verificar si el password es vacío y actualizarlo si es necesario
-      if (!user.password) {
-        user.password = '';
-        await user.save();
-      }
-    }
-
-    console.log('Usuario encontrado o creado:', user);
-
-    return done(null, user);
-
-  } catch (error) {
-    console.error('Error en estrategia de GitHub:', error);
-    return done(error);
-  }
-}));
-
-// Serialización y deserialización de usuarios
-passport.serializeUser((user, done) => {
-  console.log('Serializando usuario:', user);
-  done(null, {
-    _id: user._id,
-    role: user.role || 'usuario'  // Se define 'usuario' por defecto si no hay un campo 'role'
-  });
-});
-
-passport.deserializeUser(async (data, done) => {
-  try {
-    const user = await User.findById(data._id);
-    if (!user) {
-      return done(null, false);
-    }
-    console.log('Deserializando usuario por ID:', user);
-    done(null, {
-      ...user.toObject(),
-      role: data.role || 'usuario'  // Se define 'usuario' por defecto si no hay un campo 'role'
-    });
-  } catch (error) {
-    done(error);
-  }
-});
-
 router.use(passport.initialize());
 router.use(passport.session());
+
+router.use((req, res, next) => {
+  console.log('Middleware de redirección:', req.originalUrl);
+  next();
+});
 
 // Rutas de login y registro
 router.get('/login', (req, res) => {
@@ -177,14 +120,30 @@ router.post('/logout', (req, res) => {
   res.status(200).json({ message: 'Cierre de sesión exitoso' });
 });
 
-router.get('/login/github', passport.authenticate('github'));
+router.get('/login/github', (req, res, next) => {
+  console.log('Llegando a /login/github');
+  next();
+}, passport.authenticate('github'));
 
-router.get('/login/github/callback', passport.authenticate('github', {
-  successRedirect: '/products',
-  failureRedirect: '/api/sessions/login',
-  failureFlash: true
-}), (req, res) => {
-  console.log('Callback de GitHub exitoso');
+router.get('/login/github/callback', (req, res, next) => {
+  passport.authenticate('github', (err, user) => {
+    if (err) {
+      console.error('Error en la autenticación:', err);
+      return next(err);
+    }
+    if (!user) {
+      console.log('Usuario no encontrado, redirigiendo al login');
+      return res.redirect('/api/sessions/login');
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error('Error en req.logIn:', err);
+        return next(err);
+      }
+      console.log('Usuario autenticado con éxito:', user);
+      return res.redirect('/products');
+    });
+  })(req, res, next); // Aquí es donde se llama a la función middleware
 });
 
 module.exports = router;

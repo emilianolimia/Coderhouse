@@ -5,6 +5,7 @@ const socketio = require('socket.io');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const passport = require('./passportConfig');
 
 // Importar models
 const messageModel = require('./models/message')
@@ -49,9 +50,13 @@ app.use(session({
 }));
 
 // Requiere e inicializa Passport
-const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Usar los routers de productos y carritos en la aplicación
+app.use('/api/products', productRouter);
+app.use('/api/carts', cartRouter);
+app.use('/api/sessions', sessionsRouter);
 
 // Middleware para redirigir al endpoint /login
 app.use((req, res, next) => {
@@ -59,28 +64,37 @@ app.use((req, res, next) => {
   console.log('Usuario en sesión:', req.session.user);
   console.log('ID de sesión:', req.session.id);
 
-  // Si la ruta es /api/sessions/login o /products o /favicon.ico, continúa con la siguiente middleware
-  if (req.originalUrl === '/api/sessions/login' || req.originalUrl === '/products' || req.originalUrl === '/favicon.ico') {
+  // Si la ruta es /api/sessions/login, /products, /favicon.ico o /api/sessions/login/github/callback, continúa con la siguiente middleware
+  if (req.originalUrl === '/api/sessions/login' || req.originalUrl === '/products' || req.originalUrl === '/favicon.ico' || req.originalUrl === '/api/sessions/login/github/callback') {
+    console.log('Pasando por el primer if');
     return next();
   }
 
-  // Si no hay un usuario en sesión, redirige al endpoint /api/sessions/login
-  if (!req.session.user) {
+  // Si no hay un usuario en sesión y la ruta no es /api/sessions/login, redirige al endpoint /api/sessions/login
+  if (!req.session.user && req.originalUrl !== '/api/sessions/login') {
+    console.log('Pasando por el segundo if');
     return res.redirect('/api/sessions/login');
   }
-  
+
   // Si el usuario está en sesión y la ruta es diferente a /products, redirige a /products
   if (req.session.user && req.originalUrl !== '/products') {
+    console.log('Pasando por el tercer if');
     return res.redirect('/products');
   }
 
+  console.log('Pasando por el último caso (next)');
   next();
 });
 
-// Usar los routers de productos y carritos en la aplicación
-app.use('/api/products', productRouter);
-app.use('/api/carts', cartRouter);
-app.use('/api/sessions', sessionsRouter);
+// Middleware para comprobar si el usuario está autenticado
+const isAuthenticated = (req, res, next) => {
+  // Passport añade el método isAuthenticated a req
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  // Si el usuario no está autenticado, redirige al login
+  res.redirect('/login');
+};
 
 // Inicialización del servidor
 const server = http.createServer(app);
@@ -113,22 +127,22 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/products', async (req, res) => {
+app.get('/products', isAuthenticated, async (req, res) => {
   try {
-      const products = await productModel.find();
+    const products = await productModel.find();
 
-      // Verifica si hay un usuario en sesión y pasa el usuario al contexto de la vista
-      const user = req.session.user ? req.session.user : null;
-      console.log(user);
-      
-      res.render('home', { 
-        products: JSON.parse(JSON.stringify(products)),
-        user: user // Pasa el usuario al contexto de la vista
-      });
-    } catch (error) {
-      console.error('Error:', error.message);
-      res.status(500).json({ error: 'Error interno del servidor' });
-    }
+    // Utiliza req.user en lugar de req.session.user para acceder al usuario autenticado
+    const user = req.user ? req.user : null;
+    console.log(user);
+    
+    res.render('home', { 
+      products: JSON.parse(JSON.stringify(products)),
+      user: user // Pasa el usuario al contexto de la vista
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
 app.get('/products/:pid', async (req, res) => {
