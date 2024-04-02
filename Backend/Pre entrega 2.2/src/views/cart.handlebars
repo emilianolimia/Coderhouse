@@ -1,0 +1,8 @@
+<h1>Carrito de Compras</h1>
+<ul>
+    {{#each cart.products}}
+        <li>{{this.id_prod.title}} - Cantidad: {{this.quantity}}</li>
+    {{/each}}
+</ul>
+<!-- Volver a la página anterior -->
+<a href="javascript:history.back()">Volver</a>
