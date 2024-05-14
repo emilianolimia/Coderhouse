@@ -91,6 +91,16 @@ router.delete('/:cid/products/:pid', async (req, res) => {
     }
 });
 
+// Definición de la función para calcular el monto total de la compra
+function calculateTotalAmount(productsToUpdate) {
+    let totalAmount = 0;
+    for (const product of productsToUpdate) {
+        // Suponiendo que cada producto tenga un precio y una cantidad
+        totalAmount += product.price * product.quantity;
+    }
+    return totalAmount;
+}
+
 router.post('/:cid/purchase', async (req, res) => {
     try {
         const cartId = req.params.cid;
@@ -118,7 +128,7 @@ router.post('/:cid/purchase', async (req, res) => {
         const ticketData = {
             code: TicketService.generateUniqueCode(),
             purchase_datetime: new Date(),
-            amount: calculateTotalAmount(productsToUpdate),
+            amount: calculateTotalAmount(productsToUpdate), // Debes definir esta función
             purchaser: req.user.email
         };
         const ticket = await TicketService.createTicket(ticketData);
