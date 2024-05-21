@@ -1,0 +1,22 @@
+<h1>Login</h1>
+  
+<form action="/api/sessions/login" method="post">
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
+
+<p>No tienes una cuenta? <a href="/api/sessions/register">Regístrate aquí</a></p>
+
+<!-- Botón para entrar con Github -->
+<div class="form-group">
+    <a href="/api/sessions/login/github" class="btn btn-secondary">Entrar con Github</a>
+</div>
