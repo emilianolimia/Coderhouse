@@ -1,0 +1,26 @@
+<h1>Confirmación de Compra</h1>
+<ul>
+    {{#each cart.products}}
+        <li>{{this.id_prod.title}} - Cantidad: {{this.quantity}} - Precio por unidad: ${{this.id_prod.price}}</li>
+    {{/each}}
+</ul>
+<p>Total: ${{total}}</p>
+<button onclick="finalizePurchase()">Finalizar Compra</button>
+<a href="/cart">Volver al Carrito</a>
+
+<script>
+    function finalizePurchase() {
+        fetch('/api/carts/{{cart._id}}/purchase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Compra finalizada:', data.message);
+            window.location.href = `/order/${data.ticket._id}`; // Redirigir al resumen de la compra
+        })
+        .catch(error => console.error('Error al finalizar la compra:', error));
+    }
+</script>

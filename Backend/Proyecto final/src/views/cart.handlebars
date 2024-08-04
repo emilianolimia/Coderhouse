@@ -1,0 +1,63 @@
+<h1>Carrito de Compras</h1>
+<ul id="cart-products-list">
+    {{#each cart.products}}
+        <li data-product-id="{{this.id_prod._id}}">
+            {{this.id_prod.title}} - Cantidad: {{this.quantity}}
+            <button onclick="updateProductQuantity('{{this.id_prod._id}}', {{this.quantity}}, 'increase')">+</button>
+            <button onclick="updateProductQuantity('{{this.id_prod._id}}', {{this.quantity}}, 'decrease')">-</button>
+            <button onclick="removeFromCart('{{this.id_prod._id}}')">Eliminar</button>
+        </li>
+    {{/each}}
+</ul>
+<!-- Volver a la página anterior -->
+<button onclick="proceedToCheckout('{{cart._id}}')">Proceder al Pago</button>
+<a href="javascript:history.back()">Volver</a>
+
+<script>
+  const cartId = '{{cart._id}}';
+
+  function updateProductQuantity(productId, currentQuantity, action) {
+    let newQuantity = currentQuantity;
+    
+    if (action === 'increase') {
+      newQuantity++;
+    } else if (action === 'decrease') {
+      newQuantity = Math.max(newQuantity - 1, 0); // No permitir cantidad negativa
+    }
+
+    fetch(`/api/carts/${cartId}/product/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ quantity: newQuantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Cantidad actualizada:', data);
+      // Recargar la página o actualizar el contenido del carrito dinámicamente
+      location.reload();
+    })
+    .catch(error => console.error('Error al actualizar cantidad:', error));
+  }
+
+  function removeFromCart(productId) {
+    fetch(`/api/carts/${cartId}/product/${productId}`, { 
+      method: 'DELETE' 
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Producto eliminado:', data);
+      // Recargar la página o actualizar el contenido del carrito dinámicamente
+      const productElement = document.querySelector(`li[data-product-id="${productId}"]`);
+      if (productElement) {
+        productElement.remove();
+      }
+    })
+    .catch(error => console.error('Error al eliminar del carrito:', error));
+  }
+
+  function proceedToCheckout(cartId) {
+        window.location.href = `/checkout`;
+  }
+</script>

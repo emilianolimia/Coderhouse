@@ -1,0 +1,39 @@
+<h1>{{product.title}}</h1>
+<p><strong>Descripción:</strong> {{product.description}}</p>
+<p><strong>Categoría:</strong> {{product.category}}</p>
+<p><strong>Precio:</strong> {{product.price}}</p>
+<p><strong>Stock:</strong> {{product.stock}}</p>
+
+<!-- Agregar al carrito -->
+<form id="add-to-cart-form">
+    <label for="quantity">Cantidad:</label>
+    <input type="number" id="quantity" name="quantity" min="1" value="1">
+    <button type="submit">Agregar al Carrito</button>
+</form>
+
+<!-- Volver a la lista de productos -->
+<a href="/products">Volver a la Lista de Productos</a>
+
+<script>
+    document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+    const quantity = parseInt(document.getElementById('quantity').value, 10);
+    const cartId = "{{cartId}}";
+    const productId = "{{product._id}}";
+
+    fetch(`/api/carts/${cartId}/product/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Producto agregado al carrito:', data.message);
+        window.location.href = `/cart`; // Redirigir al carrito de compras
+    })
+    .catch(error => console.error('Error al agregar al carrito:', error));
+});
+</script>

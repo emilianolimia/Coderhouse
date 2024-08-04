@@ -1,0 +1,43 @@
+<h1>Bienvenido, {{user.first_name}} {{user.last_name}}!</h1>
+<p>Email: {{user.email}}</p>
+<p>Edad: {{user.age}}</p>
+<p>Rol: {{user.role}}</p>
+
+<div id="products-container">
+  <h1>Lista de Productos</h1>
+  <ul>
+    {{#each products}}
+      <li>
+        {{this.title}} - ${{this.price}}
+        <button onclick="showProductDetails('{{this._id}}')">Ver Detalles</button> <!-- Botón para ver detalles -->
+        <button onclick="addToCart('{{this._id}}', 1)">Agregar al Carrito</button> <!-- Botón para agregar al carrito -->
+      </li>
+    {{/each}}
+  </ul>
+</div>
+
+<a href="/logout">Logout</a> - 
+<a href="/cart">Ver Carrito</a> <!-- Botón para ver el carrito -->
+
+<script>
+  const cartId = '{{cartId}}'; // Definir cartId en el script
+  
+  // Función para mostrar los detalles del producto
+  function showProductDetails(productId) {
+    window.location.href = `/products/${productId}`; // Redireccionar a la vista de detalles del producto
+  }
+
+  // Función para agregar el producto al carrito
+  function addToCart(productId, quantity) {
+    fetch(`/api/carts/${cartId}/product/${productId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ quantity })
+    })
+      .then(response => response.json())
+      .then(data => console.log('Producto agregado al carrito:', data))
+      .catch(error => console.error('Error al agregar al carrito:', error));
+  }
+</script>

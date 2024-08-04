@@ -1,0 +1,11 @@
+<h1>Resumen de Compra</h1>
+<p>Gracias por tu compra. Aquí está el resumen de tu pedido:</p>
+<p><strong>Código de la compra:</strong> {{ticket.code}}</p>
+<p><strong>Fecha de la compra:</strong> {{ticket.purchase_datetime}}</p>
+<p><strong>Monto total:</strong> ${{ticket.amount}}</p>
+<ul>
+    {{#each ticket.products}}
+        <li>{{this.id_prod.title}} - Cantidad: {{this.quantity}} - Precio por unidad: ${{this.id_prod.price}}</li>
+    {{/each}}
+</ul>
+<a href="/products">Volver a la Tienda</a>

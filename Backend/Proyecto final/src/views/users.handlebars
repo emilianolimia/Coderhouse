@@ -1,0 +1,65 @@
+<h1>Administrar Usuarios</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <td>{{this.first_name}} {{this.last_name}}</td>
+          <td>{{this.email}}</td>
+          <td>
+            <select data-id="{{this._id}}" class="role-select">
+              <option value="user" {{#ifCond this.role 'user'}}selected{{/ifCond}}>User</option>
+              <option value="admin" {{#ifCond this.role 'admin'}}selected{{/ifCond}}>Admin</option>
+              <option value="premium" {{#ifCond this.role 'premium'}}selected{{/ifCond}}>Premium</option>
+            </select>
+          </td>
+          <td>
+            <button class="delete-user" data-id="{{this._id}}">Eliminar</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <script>
+    document.querySelectorAll('.role-select').forEach(select => {
+      select.addEventListener('change', function() {
+        const userId = this.getAttribute('data-id');
+        const newRole = this.value;
+        
+        fetch(`/api/users/${userId}/role`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ role: newRole })
+        })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+      });
+    });
+
+    document.querySelectorAll('.delete-user').forEach(button => {
+      button.addEventListener('click', function() {
+        const userId = this.getAttribute('data-id');
+        
+        fetch(`/api/users/${userId}`, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message);
+          location.reload();
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    });
+  </script>
